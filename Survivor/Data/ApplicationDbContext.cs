@@ -23,14 +23,16 @@ namespace Survivor.Data
                 entity.Property(e => e.FirstName).IsRequired();
                 entity.Property(e => e.LastName).IsRequired();
                 entity.Property(e => e.CategoryId).IsRequired();
-                entity.HasOne(e => e.Category)
-                    .WithMany(e => e.Competitors)
-                    .HasForeignKey(e => e.CategoryId);
             });
 
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.Name).IsRequired();
+
+                entity.HasMany(e => e.Competitors)
+                    .WithOne(e => e.Category)
+                    .HasForeignKey(e => e.CategoryId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
 
